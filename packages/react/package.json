@@ -35,7 +35,9 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "docs",
+    "README.md"
   ],
   "sideEffects": false,
   "peerDependencies": {

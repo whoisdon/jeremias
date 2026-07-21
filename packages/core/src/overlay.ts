@@ -50,6 +50,7 @@ export class OverlayLayer {
   readonly root: HTMLDivElement;
   private panels = new Set<HTMLElement>();
   private notepadCount = 0;
+  private topPanelZ = 0;
   private readonly panelZIndex: number;
   private readonly handlers: OverlayPanelHandlers;
 
@@ -163,8 +164,10 @@ export class OverlayLayer {
     panel.style.top = `${Math.round(y)}px`;
   }
 
-  /** Coloca o painel acima dos demais cards (ordem DOM, sempre abaixo do pato). */
+  /** Coloca o painel acima dos demais cards (ordem DOM + z-index, sempre abaixo do pato). */
   bringPanelToFront(panel: HTMLElement): void {
+    this.topPanelZ += 1;
+    panel.style.zIndex = String(this.panelZIndex + this.topPanelZ);
     this.root.appendChild(panel);
   }
 
@@ -250,12 +253,14 @@ export class OverlayLayer {
     };
 
     const theme = themes[style];
+    const darkHeader = style === 'discord' || style === 'twitter' || style === 'tumblr';
+    this.topPanelZ += 1;
     const panel = document.createElement('div');
     panel.className = `jeremias-panel jeremias-panel-${style}`;
     panel.style.cssText = [
       'position:fixed',
       'pointer-events:auto',
-      `z-index:${this.panelZIndex}`,
+      `z-index:${this.panelZIndex + this.topPanelZ}`,
       'left:-10000px',
       'top:0',
       'visibility:hidden',
@@ -295,7 +300,7 @@ export class OverlayLayer {
     title.textContent = options.title;
     title.style.cssText = 'flex:1;font:600 11px/1.2 sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis';
 
-    const close = this.makeCloseButton(panel, options.onClose, () => this.removePanel(panel));
+    const close = this.makeCloseButton(panel, darkHeader, options.onClose, () => this.removePanel(panel));
     header.appendChild(icon);
     header.appendChild(title);
     header.appendChild(close);
@@ -343,12 +348,17 @@ export class OverlayLayer {
     this.root.appendChild(panel);
     this.panels.add(panel);
     this.bringPanelToFront(panel);
-    this.makePanelDraggable(panel, header);
+    const menu = panel.querySelector<HTMLElement>('.jeremias-notepad-menu');
+    this.makePanelDraggable(panel, header, menu);
     return panel;
   }
 
-  /** Arrastar pelo header ou pelo corpo (exceto botões, textarea e scroll). */
-  private makePanelDraggable(panel: HTMLDivElement, header: HTMLElement): void {
+  /** Arrastar pelo header, menu do Notepad ou corpo (exceto controles interativos). */
+  private makePanelDraggable(
+    panel: HTMLDivElement,
+    header: HTMLElement,
+    menu: HTMLElement | null,
+  ): void {
     let dragging = false;
     let pointerId = -1;
     let startX = 0;
@@ -361,6 +371,7 @@ export class OverlayLayer {
       panel.style.transform = 'none';
       panel.style.transformOrigin = '';
       panel.style.willChange = '';
+      panel.style.pointerEvents = 'auto';
       this.movePanel(panel, rect.left, rect.top);
       startLeft = rect.left;
       startTop = rect.top;
@@ -370,6 +381,7 @@ export class OverlayLayer {
       if (!dragging) return;
       dragging = false;
       panel.style.transition = '';
+      panel.style.touchAction = '';
       panel.dataset.jeremiasCarried = 'false';
       if (pointerId >= 0) {
         try {
@@ -382,22 +394,21 @@ export class OverlayLayer {
       this.clampPanelInViewport(panel);
     };
 
+    const isInteractiveTarget = (target: Element): boolean =>
+      !!target.closest('button, textarea, a, input, select, [contenteditable="true"]');
+
     const canDragFromTarget = (target: Element): boolean => {
-      if (target.closest('button')) return false;
-      if (target.closest('textarea')) return false;
+      if (isInteractiveTarget(target)) return false;
       if (target.closest('.jeremias-panel-header, .jeremias-notepad-menu')) return true;
-      const client = panel.querySelector('.jeremias-panel-client');
-      if (client?.contains(target)) {
-        if (client.scrollHeight > client.clientHeight + 2) return false;
-      }
-      return true;
+      return target.closest('.jeremias-panel-client') !== null;
     };
 
-    const onPointerDown = (event: PointerEvent): void => {
+    const beginDrag = (event: PointerEvent): void => {
       if (event.button !== 0) return;
       if (!canDragFromTarget(event.target as Element)) return;
 
       event.preventDefault();
+      event.stopPropagation();
       this.bringPanelToFront(panel);
       this.handlers.onUserPanelDragStart?.(panel);
       syncPanelPositionForDrag();
@@ -407,11 +418,13 @@ export class OverlayLayer {
       startX = event.clientX;
       startY = event.clientY;
       panel.style.transition = 'none';
+      panel.style.touchAction = 'none';
       panel.setPointerCapture(event.pointerId);
     };
 
     const onPointerMove = (event: PointerEvent): void => {
       if (!dragging || event.pointerId !== pointerId) return;
+      event.preventDefault();
       this.movePanel(
         panel,
         startLeft + (event.clientX - startX),
@@ -419,43 +432,56 @@ export class OverlayLayer {
       );
     };
 
-    panel.addEventListener('pointerdown', onPointerDown);
+    header.addEventListener('pointerdown', beginDrag);
+    menu?.addEventListener('pointerdown', beginDrag);
+    panel.addEventListener('pointerdown', beginDrag);
     panel.addEventListener('pointermove', onPointerMove);
     panel.addEventListener('pointerup', endDrag);
     panel.addEventListener('pointercancel', endDrag);
     header.style.touchAction = 'none';
+    header.style.cursor = 'move';
+    if (menu) {
+      menu.style.touchAction = 'none';
+      menu.style.cursor = 'move';
+    }
   }
 
   private makeCloseButton(
     panel: HTMLDivElement,
+    darkHeader: boolean,
     onClose: (() => void) | undefined,
     remove: () => void,
   ): HTMLButtonElement {
     const close = document.createElement('button');
     close.type = 'button';
+    close.className = 'jeremias-panel-close';
     close.textContent = '×';
     close.setAttribute('aria-label', 'Fechar');
+    const idleBg = darkHeader ? 'rgba(255,255,255,.14)' : 'rgba(0,0,0,.12)';
+    const idleColor = darkHeader ? '#fff' : '#fff';
     close.style.cssText = [
       'position:relative',
-      'z-index:2',
+      'z-index:3',
       'flex-shrink:0',
-      'width:24px',
-      'height:24px',
-      'border:0',
+      'width:22px',
+      'height:22px',
+      'border:1px solid rgba(255,255,255,.22)',
       'border-radius:3px',
-      'background:rgba(255,255,255,.18)',
-      'color:#fff',
-      'font:17px/24px sans-serif',
+      `background:${idleBg}`,
+      `color:${idleColor}`,
+      'font:16px/20px sans-serif',
       'cursor:pointer',
       'padding:0',
       'pointer-events:auto',
       'touch-action:manipulation',
     ].join(';');
     close.addEventListener('mouseenter', () => {
-      close.style.background = 'rgba(232,17,35,.85)';
+      close.style.background = 'rgba(232,17,35,.92)';
+      close.style.borderColor = 'rgba(232,17,35,.92)';
     });
     close.addEventListener('mouseleave', () => {
-      close.style.background = 'rgba(255,255,255,.18)';
+      close.style.background = idleBg;
+      close.style.borderColor = 'rgba(255,255,255,.22)';
     });
 
     const handleClose = (event: Event): void => {
@@ -467,9 +493,7 @@ export class OverlayLayer {
     };
 
     close.addEventListener('pointerdown', (event) => {
-      event.stopPropagation();
-    });
-    close.addEventListener('mousedown', (event) => {
+      event.preventDefault();
       event.stopPropagation();
     });
     close.addEventListener('click', handleClose);
@@ -680,7 +704,7 @@ export class OverlayLayer {
     const timeAgo = note.timeAgo ?? pickRandom(['12:04', '18:47', 'Ontem']);
 
     const wrap = document.createElement('div');
-    wrap.style.cssText = 'padding:10px;background:#ece5dd;min-height:100%';
+    wrap.style.cssText = 'padding:10px;background:#ece5dd';
 
     const bubble = document.createElement('div');
     bubble.style.cssText = 'max-width:88%;background:#fff;border-radius:8px;padding:8px 10px;box-shadow:0 1px 1px rgba(0,0,0,.08)';

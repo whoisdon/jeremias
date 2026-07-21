@@ -1642,12 +1642,14 @@ export class JeremiasEngine implements JeremiasInstance {
     const el = this.dragCarry.el;
     el.style.left = `${Math.round(this.dragCarry.x)}px`;
     el.style.top = `${Math.round(this.dragCarry.y)}px`;
-    el.style.transform = 'rotate(0deg)';
+    el.style.transform = 'none';
     el.style.transformOrigin = '';
     el.style.willChange = '';
-    el.style.pointerEvents = '';
+    el.style.pointerEvents = 'auto';
     if (el.classList.contains('jeremias-panel')) {
       el.dataset.jeremiasCarried = 'false';
+      this.overlay.bringPanelToFront(el);
+      this.overlay.clampPanelInViewport(el);
     }
     this.dragCarry = null;
   }
@@ -1655,11 +1657,12 @@ export class JeremiasEngine implements JeremiasInstance {
   private dropPanelCarry(panel: HTMLElement): void {
     if (!this.dragCarry || this.dragCarry.el !== panel) return;
     panel.dataset.jeremiasCarried = 'false';
-    panel.style.transform = 'rotate(0deg)';
+    panel.style.transform = 'none';
     panel.style.transformOrigin = '';
     panel.style.willChange = '';
-    panel.style.pointerEvents = '';
+    panel.style.pointerEvents = 'auto';
     this.dragCarry = null;
+    this.overlay.bringPanelToFront(panel);
     this.overlay.clampPanelInViewport(panel);
     this.animator.setCarryPose(false);
     this.animator.setPeckHold(false);

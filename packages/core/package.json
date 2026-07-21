@@ -41,7 +41,9 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "docs",
+    "README.md"
   ],
   "sideEffects": false,
   "scripts": {

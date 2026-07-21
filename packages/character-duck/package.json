@@ -41,7 +41,9 @@
   "files": [
     "dist",
     "assets",
-    "assets.d.ts"
+    "assets.d.ts",
+    "docs",
+    "README.md"
   ],
   "peerDependencies": {
     "@duckjeremias/core": "^0.1.0"
