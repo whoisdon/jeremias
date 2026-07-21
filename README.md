@@ -337,20 +337,6 @@ npm run typecheck
 
 ---
 
-## Publicar no npm
-
-1. Atualize `repository`, `bugs` e `homepage` nos `package.json` com seu repositório real.
-2. Faça login: `npm login`
-3. Publique os três pacotes:
-
-```bash
-npm run publish:packages
-```
-
-Ordem de publicação: `@duckjeremias/core` → `@duckjeremias/character-duck` → `@duckjeremias/react`.
-
----
-
 ## Sprites (créditos)
 
 Arte: **Pixel Duck Anim SpriteSheet** por **Etienne Pouvreau**. Detalhes em [`packages/character-duck/assets/credits.md`](./packages/character-duck/assets/credits.md).
