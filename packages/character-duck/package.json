@@ -1,6 +1,6 @@
 {
   "name": "@duckjeremias/character-duck",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "CharacterPack e spritesheet do pato JEREMIAS",
   "license": "MIT",
   "author": "JEREMIAS contributors",
@@ -46,10 +46,10 @@
     "README.md"
   ],
   "peerDependencies": {
-    "@duckjeremias/core": "^0.1.0"
+    "@duckjeremias/core": "^0.1.1"
   },
   "devDependencies": {
-    "@duckjeremias/core": "0.1.0",
+    "@duckjeremias/core": "0.1.1",
     "pngjs": "^7.0.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"

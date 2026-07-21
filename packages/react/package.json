@@ -1,6 +1,6 @@
 {
   "name": "@duckjeremias/react",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Componente React do JEREMIAS",
   "license": "MIT",
   "author": "JEREMIAS contributors",
@@ -45,7 +45,7 @@
     "react-dom": ">=18"
   },
   "dependencies": {
-    "@duckjeremias/core": "0.1.0"
+    "@duckjeremias/core": "0.1.1"
   },
   "devDependencies": {
     "@types/react": "^19.1.8",
