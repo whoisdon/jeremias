@@ -1,0 +1,45 @@
+{
+  "name": "jeremias",
+  "private": true,
+  "type": "module",
+  "description": "Monorepo JEREMIAS, pato travesso configurável para sites",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whoisdon/jeremias.git"
+  },
+  "bugs": {
+    "url": "https://github.com/whoisdon/jeremias/issues"
+  },
+  "homepage": "https://github.com/whoisdon/jeremias#readme",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "postinstall": "npm run build -w @jeremias/core && npm run build -w @jeremias/character-duck && npm run build -w @jeremias/react",
+    "build": "npm run build -w @jeremias/core && npm run build -w @jeremias/character-duck && npm run build -w @jeremias/react",
+    "typecheck": "npm run build -w @jeremias/core && npm run typecheck -w @jeremias/core && npm run typecheck -w @jeremias/character-duck && npm run typecheck -w @jeremias/react",
+    "lint": "npm run typecheck && eslint \"packages/**/*.{ts,tsx}\"",
+    "commitlint": "commitlint --edit",
+    "prepare": "husky",
+    "prepublish:packages": "npm run build",
+    "publish:packages": "npm run prepublish:packages && npm publish -w @jeremias/core --access public && npm publish -w @jeremias/character-duck --access public && npm publish -w @jeremias/react --access public"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.8.0",
+    "@commitlint/config-conventional": "^19.8.0",
+    "@eslint/js": "^9.28.0",
+    "eslint": "^9.28.0",
+    "husky": "^9.1.7",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.33.0"
+  },
+  "keywords": [
+    "jeremias",
+    "duck",
+    "pet",
+    "react",
+    "canvas",
+    "overlay"
+  ]
+}

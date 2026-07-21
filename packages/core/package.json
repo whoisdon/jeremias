@@ -1,0 +1,55 @@
+{
+  "name": "@jeremias/core",
+  "version": "0.1.0",
+  "description": "Engine do JEREMIAS — movimento, cards, arrasto e cursor",
+  "license": "MIT",
+  "author": "JEREMIAS contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whoisdon/jeremias.git",
+    "directory": "packages/core"
+  },
+  "bugs": {
+    "url": "https://github.com/whoisdon/jeremias/issues"
+  },
+  "homepage": "https://github.com/whoisdon/jeremias/tree/main/packages/core#readme",
+  "keywords": [
+    "jeremias",
+    "pet",
+    "duck",
+    "canvas",
+    "overlay",
+    "web-pet"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup src/index.ts --format esm,cjs --dts --clean",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  }
+}

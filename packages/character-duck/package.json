@@ -1,0 +1,59 @@
+{
+  "name": "@jeremias/character-duck",
+  "version": "0.1.0",
+  "description": "CharacterPack e spritesheet do pato JEREMIAS",
+  "license": "MIT",
+  "author": "JEREMIAS contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/whoisdon/jeremias.git",
+    "directory": "packages/character-duck"
+  },
+  "bugs": {
+    "url": "https://github.com/whoisdon/jeremias/issues"
+  },
+  "homepage": "https://github.com/whoisdon/jeremias/tree/main/packages/character-duck#readme",
+  "keywords": [
+    "jeremias",
+    "duck",
+    "spritesheet",
+    "character",
+    "pixel-art"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./assets/spritesheet.png": {
+      "types": "./assets.d.ts",
+      "default": "./assets/spritesheet.png"
+    }
+  },
+  "files": [
+    "dist",
+    "assets",
+    "assets.d.ts"
+  ],
+  "peerDependencies": {
+    "@jeremias/core": "^0.1.0"
+  },
+  "devDependencies": {
+    "@jeremias/core": "0.1.0",
+    "pngjs": "^7.0.0",
+    "tsup": "^8.5.0",
+    "typescript": "^5.8.3"
+  },
+  "scripts": {
+    "build": "node scripts/generate-spritesheet.mjs && tsup src/index.ts --format esm --dts --clean",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  }
+}
