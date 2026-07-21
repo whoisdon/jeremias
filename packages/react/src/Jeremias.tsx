@@ -6,7 +6,7 @@ import {
   DEFAULT_RENDER,
   type JeremiasConfig,
   type JeremiasInstance,
-} from '@jeremias/core';
+} from '@duckjeremias/core';
 
 export type JeremiasProps = JeremiasConfig & {
   className?: string;

@@ -12,20 +12,20 @@ O JEREMIAS aparece na página, traz **cards flutuantes** (Reddit, Notepad, Faceb
 
 | Pacote | Descrição |
 |--------|-----------|
-| [`@jeremias/core`](./packages/core) | Engine (canvas, overlay, tasks, config) |
-| [`@jeremias/react`](./packages/react) | Componente `<Jeremias />` (`'use client'`) |
-| [`@jeremias/character-duck`](./packages/character-duck) | Spritesheet + `createJeremiasCharacter()` |
+| [`@duckjeremias/core`](./packages/core) | Engine (canvas, overlay, tasks, config) |
+| [`@duckjeremias/react`](./packages/react) | Componente `<Jeremias />` (`'use client'`) |
+| [`@duckjeremias/character-duck`](./packages/character-duck) | Spritesheet + `createJeremiasCharacter()` |
 
 ## Instalação
 
 ```bash
-npm install @jeremias/core @jeremias/react @jeremias/character-duck
+npm install @duckjeremias/core @duckjeremias/react @duckjeremias/character-duck
 ```
 
 Só vanilla (sem React):
 
 ```bash
-npm install @jeremias/core @jeremias/character-duck
+npm install @duckjeremias/core @duckjeremias/character-duck
 ```
 
 ## Início rápido (React / Next.js)
@@ -33,9 +33,9 @@ npm install @jeremias/core @jeremias/character-duck
 ```tsx
 'use client';
 
-import { Jeremias } from '@jeremias/react';
-import { createJeremiasCharacter } from '@jeremias/character-duck';
-import sheet from '@jeremias/character-duck/assets/spritesheet.png';
+import { Jeremias } from '@duckjeremias/react';
+import { createJeremiasCharacter } from '@duckjeremias/character-duck';
+import sheet from '@duckjeremias/character-duck/assets/spritesheet.png';
 
 const character = createJeremiasCharacter(sheet);
 
@@ -60,8 +60,8 @@ export function SitePet() {
 ## Início rápido (Vanilla JS)
 
 ```ts
-import { createJeremias } from '@jeremias/core';
-import { createJeremiasCharacter } from '@jeremias/character-duck';
+import { createJeremias } from '@duckjeremias/core';
+import { createJeremiasCharacter } from '@duckjeremias/character-duck';
 
 const character = createJeremiasCharacter('/spritesheet.png');
 
@@ -105,8 +105,8 @@ Props legadas ainda funcionam: `aggression`, `targets`, `notes` (prefira `behavi
 Objeto `CharacterPack` com spritesheet e mapa de animações.
 
 ```ts
-import { createJeremiasCharacter } from '@jeremias/character-duck';
-import sheet from '@jeremias/character-duck/assets/spritesheet.png';
+import { createJeremiasCharacter } from '@duckjeremias/character-duck';
+import sheet from '@duckjeremias/character-duck/assets/spritesheet.png';
 
 const character = createJeremiasCharacter(sheet);
 ```
@@ -301,7 +301,7 @@ jeremias/
 └── package.json
 ```
 
-### Exports públicos (`@jeremias/core`)
+### Exports públicos (`@duckjeremias/core`)
 
 ```ts
 // Factory
@@ -347,7 +347,7 @@ npm run typecheck
 npm run publish:packages
 ```
 
-Ordem de publicação: `@jeremias/core` → `@jeremias/character-duck` → `@jeremias/react`.
+Ordem de publicação: `@duckjeremias/core` → `@duckjeremias/character-duck` → `@duckjeremias/react`.
 
 ---
 
@@ -356,7 +356,7 @@ Ordem de publicação: `@jeremias/core` → `@jeremias/character-duck` → `@jer
 Arte: **Pixel Duck Anim SpriteSheet** por **Etienne Pouvreau**. Detalhes em [`packages/character-duck/assets/credits.md`](./packages/character-duck/assets/credits.md).
 
 - Fonte: `packages/character-duck/assets/source/sprite-sheet.png`
-- Build: `npm run build -w @jeremias/character-duck` gera `assets/spritesheet.png`
+- Build: `npm run build -w @duckjeremias/character-duck` gera `assets/spritesheet.png`
 
 ---
 

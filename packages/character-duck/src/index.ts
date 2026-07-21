@@ -1,4 +1,4 @@
-import type { CharacterPack } from '@jeremias/core';
+import type { CharacterPack } from '@duckjeremias/core';
 
 export type { CharacterPack };
 

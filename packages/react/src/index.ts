@@ -12,4 +12,4 @@ export type {
   PanelNote,
   PanelStyle,
   TaskFlags,
-} from '@jeremias/core';
+} from '@duckjeremias/core';

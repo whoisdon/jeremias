@@ -16,14 +16,14 @@
     "packages/*"
   ],
   "scripts": {
-    "postinstall": "npm run build -w @jeremias/core && npm run build -w @jeremias/character-duck && npm run build -w @jeremias/react",
-    "build": "npm run build -w @jeremias/core && npm run build -w @jeremias/character-duck && npm run build -w @jeremias/react",
-    "typecheck": "npm run build -w @jeremias/core && npm run typecheck -w @jeremias/core && npm run typecheck -w @jeremias/character-duck && npm run typecheck -w @jeremias/react",
+    "postinstall": "npm run build -w @duckjeremias/core && npm run build -w @duckjeremias/character-duck && npm run build -w @duckjeremias/react",
+    "build": "npm run build -w @duckjeremias/core && npm run build -w @duckjeremias/character-duck && npm run build -w @duckjeremias/react",
+    "typecheck": "npm run build -w @duckjeremias/core && npm run typecheck -w @duckjeremias/core && npm run typecheck -w @duckjeremias/character-duck && npm run typecheck -w @duckjeremias/react",
     "lint": "npm run typecheck && eslint \"packages/**/*.{ts,tsx}\"",
     "commitlint": "commitlint --edit",
     "prepare": "husky",
     "prepublish:packages": "npm run build",
-    "publish:packages": "npm run prepublish:packages && npm publish -w @jeremias/core --access public && npm publish -w @jeremias/character-duck --access public && npm publish -w @jeremias/react --access public"
+    "publish:packages": "npm run prepublish:packages && npm publish -w @duckjeremias/core --access public && npm publish -w @duckjeremias/character-duck --access public && npm publish -w @duckjeremias/react --access public"
   },
   "devDependencies": {
     "@commitlint/cli": "^19.8.0",

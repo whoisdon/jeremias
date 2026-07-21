@@ -1,5 +1,5 @@
 {
-  "name": "@jeremias/character-duck",
+  "name": "@duckjeremias/character-duck",
   "version": "0.1.0",
   "description": "CharacterPack e spritesheet do pato JEREMIAS",
   "license": "MIT",
@@ -44,10 +44,10 @@
     "assets.d.ts"
   ],
   "peerDependencies": {
-    "@jeremias/core": "^0.1.0"
+    "@duckjeremias/core": "^0.1.0"
   },
   "devDependencies": {
-    "@jeremias/core": "0.1.0",
+    "@duckjeremias/core": "0.1.0",
     "pngjs": "^7.0.0",
     "tsup": "^8.5.0",
     "typescript": "^5.8.3"
